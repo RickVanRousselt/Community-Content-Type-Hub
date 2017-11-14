@@ -1,0 +1,107 @@
+﻿@model Dictionary<Community.ContenType.DeploymentHub.Domain.Core.ContentType, List<Community.ContenType.DeploymentHub.Domain.Core.SiteCollection>>
+@{
+    ViewBag.Title = "Confirm Push";
+}
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/App/Confirm.js")"></script>
+}
+
+<script type="text/javascript">
+    var spHostUrl = '@Url.Action("Index", "Home", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber })';
+</script>
+
+<h2 class="ctdt_pageTitle">Press Push to confirm that following Content Types will be pushed</h2>
+@using (Html.BeginForm("Push", "Push", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber }, FormMethod.Post, new { id = "subscriptionForm" }))
+{
+    <div class="ms-Grid leftMargin">
+        @Html.AntiForgeryToken()
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-u-sm6 ms-u-md8 ms-u-lg2" style="min-width: 255px;">
+                <div id="TreeGrid" class="TreeGrid"></div>
+               
+                <div class="ms-Toggle ms-Toggle--textLeft">
+                    <span class="ms-Toggle-description">Override all checks</span>
+                    <input type="checkbox" id="overrideChecks" class="ms-Toggle-input" />
+                    <label for="overrideChecks" class="ms-Toggle-field" tabindex="0">
+                        <span class="ms-Label ms-Label--off">Off</span>
+                        <span class="ms-Label ms-Label--on">Override</span>
+                    </label>
+                </div>
+            </div>
+            <div class="ms-Grid-col ms-u-sm6 ms-u-md4 ms-u-lg4">
+                <span class="ms-fontColor-alert">Use with caution, this may irreversibly corrupt your target site collections</span>
+            </div>
+            </div>
+    </div>
+    <div class="ms-Grid">
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+                <div id="ButtonDiv">
+                    <button id="confirmButton" class="ms-Button ms-Button--primary confirmButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Push</span> <span class="ms-Button-description">Push</span> </button>
+                    <button id="CancelButton" class="ms-Button ms-Button CancelButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Cancel</span> <span class="ms-Button-description">Cancel</span> </button>
+                </div>
+            </div>
+            <input type="hidden" id="selectedContentTypeData" name="selectedContentTypeData" value="">
+
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="ms-Grid">
+        <span id="Title"></span>
+        <div class="ms-Grid-row ms-Table-overflow">
+            <table class="ms-Table">
+
+                <tr class="ms-Table-row">
+                    <td class="ms-Table-cell">
+                        <span class="ms-fontWeight-semibold">Content Type Name</span>
+                    </td>
+                    <td class="ms-Table-cell">
+                        <span class="ms-fontWeight-semibold">Content Type ID</span>
+                    </td>
+                    <td class="ms-Table-cell">
+                        <span class="ms-fontWeight-semibold">Site Collections</span>
+                    </td>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr class="ms-Table-row">
+                        <td class="ms-Table-cell" style="vertical-align: top;">
+                            @item.Key.Title
+                        </td>
+                        <td class="ms-Table-cell" style="vertical-align: top;">
+                            @item.Key.Id
+                        </td>
+                        <td class="ms-Table-cell" style="padding-bottom: 5px;">
+                            <div style="width:100%; max-height:300px; overflow:auto">
+                                @foreach (var siteColl in item.Value)
+                                {
+                                    @siteColl.Url<br />
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <br />
+        <br />
+    </div>
+    <br />
+    <br />
+    <div class="ms-Grid">
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+                <div id="ButtonDiv">
+                    <button id="confirmButton" class="ms-Button ms-Button--primary confirmButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Push</span> <span class="ms-Button-description">Push</span> </button>
+                    <button id="CancelButton" class="ms-Button ms-Button CancelButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Cancel</span> <span class="ms-Button-description">Cancel</span> </button>
+                </div>
+            </div>
+            <input type="hidden" id="overrideChecksData" name="overrideChecksData" value="">
+
+        </div>
+    </div>
+}
+@Scripts.Render("~/bundles/tree")
+

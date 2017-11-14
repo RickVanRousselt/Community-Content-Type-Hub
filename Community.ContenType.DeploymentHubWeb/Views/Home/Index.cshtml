@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="ms-Grid">
+    <div class="ms-Grid-row rowDivider">
+        <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12 ms-u-mdOffset1 ms-u-lgOffset1 ms-font-m-plus ms-fontWeight-regular">
+            Welcome @ViewBag.UserName. Please choose an action:
+        </div>
+        <div class="ms-Grid-col ms-u-sm6 ms-u-md4 ms-u-lg2">
+        </div>
+    </div>
+    
+    @if (!ViewBag.FunctionalUserAccess)
+    {
+        <div class="ms-Grid-row rowDivider">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12 ms-u-mdOffset1 ms-u-lgOffset1 ms-font-m-plus ms-fontWeight-semibold ms-bgColor-severeWarning">
+                Warning! The functional user specified has not enough access on this site collection. Successfull Content Type Deployment not ensured.
+            </div>
+            <div class="ms-Grid-col ms-u-sm6 ms-u-md4 ms-u-lg2">
+            </div>
+        </div>
+    }
+
+    <div class="ms-Grid-row">
+        @if (!ViewBag.IsHub)
+        {
+            <div class="ms-Grid-col ms-u-s3 ms-u-md3 ms-u-lg3">
+                @using (Html.BeginForm(@"Index", "Provision", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--CirclePlus"></i></span>
+                        <span class="ms-Button-label">Provision/Upgrade</span>
+                    </button>
+                    <span class="ms-Label">Convert to a Content Type Hub or update your hub to the latest version</span>
+
+                }
+            </div>
+        }
+        else
+        {
+            <div class="ms-Grid-col ms-u-s3 ms-u-md3 ms-u-lg3">
+                @using (Html.BeginForm(@"Index", "Publish", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--CirclePlus"></i></span>
+                        <span class="ms-Button-label">Publish</span>
+                    </button><br/><br/>
+                    <span class="ms-Label">Publish Content Types to the libraries</span>
+
+                }
+            </div>
+            <div class="ms-Grid-col ms-u-s3 ms-u-md3 ms-u-lg3">
+                @using (Html.BeginForm(@"Index", "Push", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--CirclePlus"></i></span>
+                        <span class="ms-Button-label">Push</span>
+                    </button><br /><br />
+                    <span class="ms-Label">Push Content Types to the target site collections</span>
+                }
+            </div>
+            <div class="ms-Grid-col ms-u-s3 ms-u-md3 ms-u-lg3">
+                @using (Html.BeginForm(@"Index", "Promote", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--CirclePlus"></i></span>
+                        <span class="ms-Button-label">Promote</span>
+                    </button><br /><br />
+                    <span class="ms-Label">Promote Content Types to the next pillar</span>
+                }
+            </div>
+        }
+    </div>
+
+    <script type="text/javascript">
+        var ButtonElements = document.querySelectorAll(".ms-Button");
+        for (var i = 0; i < ButtonElements.length; i++) {
+            new fabric['Button'](ButtonElements[i],
+                function () {
+                    // Insert Event Here
+                });
+        }
+    </script>
+</div>

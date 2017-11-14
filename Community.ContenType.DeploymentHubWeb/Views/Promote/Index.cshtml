@@ -1,0 +1,97 @@
+﻿@model Community.ContenType.DeploymentHubWeb.ViewModels.PromoteIndexViewModel
+@{
+    ViewBag.Title = "Promote";
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/App/promote.js")"></script>
+   
+}
+
+
+
+<script type="text/javascript">
+    //Initial data
+    var treeData = '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.DeploymentGroupSubTreesJson))';
+    var spHostUrl = '@Url.Action("Index", "Home", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber })';
+</script>
+
+@if (!Model.PromoteSourceFound)
+{
+    <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-sm10 ms-u-md10 ms-u-lg10 ms-u-mdOffset1 ms-u-lgOffset1 ms-font-m-plus ms-fontWeight-semibold ms-bgColor-severeWarning">
+            Warning! No Promote target defined in the configuration list. Successfull Content Type Deployment not ensured.
+        </div>
+        <div class="ms-Grid-col">
+        </div>
+    </div>
+    <br/>
+}
+else
+{
+    <h2 class="ctdt_pageTitle">Choose the Content Types you want to promote to @Model.NextPillar</h2>
+}
+
+<span id="Title"></span>
+<div class="ms-Grid">
+    <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-md5 ms-u-lg5">
+            <div class="ms-SearchBox">
+                <input class="ms-SearchBox-field" id="searchInput">
+                <label class="ms-SearchBox-label">
+                    <i class="ms-SearchBox-icon ms-Icon ms-Icon--Search"></i>
+                    <span class="ms-SearchBox-text">Search</span>
+                </label>
+                <div class="ms-CommandButton ms-SearchBox-clear ms-CommandButton--noLabel">
+                    <button class="ms-CommandButton-button">
+                        <span class="ms-CommandButton-icon">
+                            <i class="ms-Icon ms-Icon--Clear"></i>
+                        </span>
+                        <span class="ms-CommandButton-label"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("ConfirmPromote", "Promote", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber }, FormMethod.Post, new { id = "subscriptionForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="ms-Grid">
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+                <div id="ButtonDiv">
+                    <button id="promoteContentTypeBtn" class="ms-Button ms-Button--primary promoteContentTypeBtn"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Promote</span> <span class="ms-Button-description">Promote</span> </button>
+                    <button id="CancelButton" class="ms-Button ms-Button CancelButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Cancel</span> <span class="ms-Button-description">Cancel</span> </button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <br />
+        <br />
+        <div class="ms-Grid">
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-u-md7 ms-u-lg7">
+                    <div id="TreeGrid" class="TreeGrid"></div>
+                </div>
+            </div>
+            <br />
+            <br />
+        </div>
+        <div class="ms-Grid">
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+                    <div id="ButtonDiv">
+                        <button id="promoteContentTypeBtn" class="ms-Button ms-Button--primary promoteContentTypeBtn"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Promote</span> <span class="ms-Button-description">Promote</span> </button>
+                        <button id="CancelButton" class="ms-Button ms-Button CancelButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Cancel</span> <span class="ms-Button-description">Cancel</span> </button>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedContentTypeData" name="selectedContentTypeData" value="">
+
+            </div>
+        </div>
+}
+@Scripts.Render("~/bundles/tree")
+

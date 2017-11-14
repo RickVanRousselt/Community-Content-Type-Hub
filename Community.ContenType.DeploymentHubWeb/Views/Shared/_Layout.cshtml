@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Content Type Hub</title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/spcontext")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/JsTree/default/style.css")
+    <script src="//ajax.aspnetcdn.com/ajax/4.0/1/MicrosoftAjax.js" type="text/javascript"></script>
+    @Styles.Render("~/Content/fabric")
+    <script src='@ViewBag.SPHostUrl/_layouts/15/SP.UI.Controls.js'></script>
+    @RenderSection("Scripts", false/*required*/)
+
+    <script>
+        // Callback for the onCssLoaded event defined
+        //  in the options object of the chrome control
+        function chromeLoaded() {
+            // When the page has loaded the required
+            //  resources for the chrome control,
+            //  display the page body.
+            $("body").show();
+        };
+
+        function getQueryStringParameter(urlParameterKey) {
+            var params = document.URL.split('?')[1].split('&');
+            var strParams = "";
+            for (var i = 0; i < params.length; i = i + 1) {
+                var singleParam = params[i].split('=');
+                if (singleParam[0] == urlParameterKey)
+                    return singleParam[1];
+            }
+        };
+
+        $(function () {
+            var displayType = decodeURIComponent(getQueryStringParameter('DisplayType'));
+            var options = {
+                appIconUrl: '@Href("~/Content/Images/stack_64x64.png")',
+                appTitle: "Community Content Type Hub",
+                "onCssLoaded": "chromeLoaded()"
+
+            };
+            if (displayType !== "iframe") {
+                var nav = new SP.UI.Controls.Navigation("chrome_ctrl_container", options);
+                nav.setVisible(true);
+            } else {
+                $("body").show();
+            }
+        });
+    </script>
+
+</head>
+<body style="display: none" class="jstreeScroll">
+
+    <div id="chrome_ctrl_container"></div>
+    <div class="container body-content ms-Grid">
+        @RenderBody()
+    </div>
+</body>
+</html>

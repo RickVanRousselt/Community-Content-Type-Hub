@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Community.ContenType.DeploymentHub.Domain.Core.ContentType>
+@{
+    ViewBag.Title = "Confirm Promote";
+}
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/App/Confirm.js")"></script>
+}
+
+
+<script type="text/javascript">
+    var spHostUrl = '@Url.Action("Index", "Home", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber })';
+</script>
+
+<h2 class="ctdt_pageTitle">Press Promote to confirm that following Content Types will be promoted</h2>
+
+<div class="ms-Grid leftMargin">
+    @Html.AntiForgeryToken()
+    <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-sm6 ms-u-md8 ms-u-lg2" style="min-width: 255px;">
+            <div class="ms-Toggle ms-Toggle--textLeft">
+                <span class="ms-Toggle-description">Override all checks</span>
+                <input type="checkbox" id="overrideChecks" class="ms-Toggle-input" />
+                <label for="overrideChecks" class="ms-Toggle-field" tabindex="0">
+                    <span class="ms-Label ms-Label--off">Off</span>
+                    <span class="ms-Label ms-Label--on">Override</span>
+                </label>
+            </div>
+        </div>
+        <div class="ms-Grid-col ms-u-sm6 ms-u-md4 ms-u-lg4">
+            <span class="ms-fontColor-alert">Use with caution, this may irreversibly corrupt your target site collections</span>
+        </div>
+    </div>
+</div>
+
+<div class="ms-Grid">
+    <span id="Title"></span>
+    <div class="ms-Grid-row ms-Table-overflow">
+        <table class="ms-Table">
+
+            <tr class="ms-Table-row">
+                <td class="ms-Table-cell">
+                    <span class="ms-fontWeight-semibold">Content Type Name</span>
+                </td>
+                <td class="ms-Table-cell">
+                    <span class="ms-fontWeight-semibold">Document Template</span>
+                </td>
+                <td class="ms-Table-cell">
+                    <span class="ms-fontWeight-semibold">Hidden</span>
+                </td>
+                <td class="ms-Table-cell">
+                    <span class="ms-fontWeight-semibold">Readonly</span>
+                </td>
+                <td class="ms-Table-cell">
+                    <span class="ms-fontWeight-semibold">Content Type Group</span>
+                </td>
+                <td class="ms-Table-cell">
+                    <span class="ms-fontWeight-semibold">Content Type ID</span>
+                </td>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr class="ms-Table-row">
+                    <td class="ms-Table-cell">
+                        @item.Title
+                    </td>
+                    <td class="ms-Table-cell">
+                        @item.DocumentTemplate
+                    </td>
+                    <td class="ms-Table-cell">
+                        @item.Hidden
+                    </td>
+                    <td class="ms-Table-cell">
+                        @item.ReadOnly
+                    </td>
+                    <td class="ms-Table-cell">
+                        @item.SpContentTypeGroup
+                    </td>
+                    <td class="ms-Table-cell">
+                        @item.Id
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <br />
+    <br />
+</div>
+@using (Html.BeginForm("Promote", "Promote", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber },  FormMethod.Post, new { id = "subscriptionForm" }))
+{
+    <div class="ms-Grid">
+        @Html.AntiForgeryToken()
+        <div class="ms-Grid-row">
+            <div id="TreeGrid" class="TreeGrid"></div>
+        </div>
+    </div>
+
+    <div class="ms-Grid">
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+                <div id="ButtonDiv">
+                    <button id="confirmButton" class="ms-Button ms-Button--primary confirmButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Promote</span> <span class="ms-Button-description">Promote</span> </button>
+                    <button id="CancelButton" class="ms-Button ms-Button CancelButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Cancel</span> <span class="ms-Button-description">Cancel</span> </button>
+                </div>
+            </div>
+            <input type="hidden" id="overrideChecksData" name="overrideChecksData" value="">
+
+        </div>
+    </div>
+}
+@Scripts.Render("~/bundles/tree")
+

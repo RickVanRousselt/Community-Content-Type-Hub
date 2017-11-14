@@ -1,0 +1,38 @@
+﻿.rowDivider {
+    margin-bottom: 35px !important;
+}
+
+.ctdt_pageTitle {
+    margin-bottom: 15px;
+    margin-left: 15px;
+
+}
+
+.ms-Table-overflow{
+  max-width: 100%;
+  overflow: auto;
+}
+.ms-Table{
+  border-collapse: separate;
+  border-spacing: 0px;
+}
+.ms-Table-cell{
+  white-space: nowrap; 
+}
+.ms-Table-rowCheck{
+  min-width: 20px;
+}
+.jstreeScroll {
+    overflow-y: auto;
+}
+.TreeViewForm {
+    overflow: auto;
+}
+.leftMargin {
+    margin-left: 8px;
+}
+
+.siteCollSpinner {
+    margin-top: 5px;
+    display: none;
+}

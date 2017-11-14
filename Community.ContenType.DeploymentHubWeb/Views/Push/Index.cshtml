@@ -1,0 +1,93 @@
+﻿@model Community.ContenType.DeploymentHubWeb.ViewModels.TreeViewModel
+@{
+    ViewBag.Title = "Push";
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/App/push.js")"></script>
+}
+
+<h2 class="ctdt_pageTitle">Choose the Deployment Groups you want to push:</h2>
+
+<script type="text/javascript">
+    //Initial data
+    var treeData = '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.DeploymentGroupSubTreesJson))';
+    var previousPage = '@ViewBag.PreviousPage';
+    var spHostUrl = '@Url.Action("Index", "Home", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber })';
+    var GetSiteCollections = '@Url.Action("GetSiteCollections", "Push", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber })';
+</script>
+
+
+<span id="Title"></span>
+<div class="ms-Grid">
+    <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-md5 ms-u-lg5">
+            <div class="ms-SearchBox">
+                <input class="ms-SearchBox-field" id="searchInput">
+                <label class="ms-SearchBox-label">
+                    <i class="ms-SearchBox-icon ms-Icon ms-Icon--Search"></i>
+                    <span class="ms-SearchBox-text">Search</span>
+                </label>
+                <div class="ms-CommandButton ms-SearchBox-clear ms-CommandButton--noLabel">
+                    <button class="ms-CommandButton-button">
+                        <span class="ms-CommandButton-icon">
+                            <i class="ms-Icon ms-Icon--Clear"></i>
+                        </span>
+                        <span class="ms-CommandButton-label"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("ConfirmPush", "Push", new { ViewBag.SPHostUrl, ViewBag.SPLanguage, ViewBag.SPClientTag, ViewBag.SPProductNumber }, FormMethod.Post, new { id = "subscriptionForm", @class = "TreeViewForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="ms-Grid">
+        <div class="ms-Grid-row">
+            <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+                <div id="ButtonDiv">
+                    <button id="pushContentTypeBtn" class="ms-Button ms-Button--primary pushContentTypeBtn"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Push</span> <span class="ms-Button-description">Push</span> </button>
+                    <button id="CancelButton" class="ms-Button ms-Button CancelButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Cancel</span> <span class="ms-Button-description">Cancel</span> </button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <br />
+        <br />
+        <div class="ms-Grid">
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-u-md8 ms-u-lg8">
+                    <div id="TreeGrid" class="TreeGrid"></div>
+                </div>
+                <div class="ms-Grid-col ms-u-md4 ms-u-lg4">
+                    <button id="GetSiteCollButton" class="ms-Button ms-Button--primary GetSiteCollButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Get Site Collections</span> <span class="ms-Button-description">Get Site Collections</span> </button>
+                    <div class="ms-Spinner siteCollSpinner">
+                        <div class="ms-Spinner-label">
+                            Retrieving...
+                        </div>
+                    </div>
+                    <table id="siteCollectionsTable"></table>
+                </div>
+            </div>
+            <br />
+            <br />
+        </div>
+        <div class="ms-Grid">
+            <div class="ms-Grid-row">
+                <div class="ms-Grid-col ms-u-sm12 ms-u-md12 ms-u-lg12">
+                    <div id="ButtonDiv">
+                        <button id="pushContentTypeBtn" class="ms-Button ms-Button--primary pushContentTypeBtn"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Push</span> <span class="ms-Button-description">Push</span> </button>
+                        <button id="CancelButton" class="ms-Button ms-Button CancelButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Cancel</span> <span class="ms-Button-description">Cancel</span> </button>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedContentTypeData" name="selectedContentTypeData" value="">
+
+            </div>
+        </div>
+}
+
+@Scripts.Render("~/bundles/tree")
+
+

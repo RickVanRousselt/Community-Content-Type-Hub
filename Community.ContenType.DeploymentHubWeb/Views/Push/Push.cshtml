@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Push";
+}
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/App/push.js")"></script>
+}
+
+<script type="text/javascript">
+    var spHostUrl = '@ViewBag.SPHostUrl';
+</script>
+
+<h2 class="ctdt_pageTitle">Content Types are being pushed. You will be notified by email when action is finished. Or check the Status-log.</h2>
+
+<div class="ms-Grid">
+    <div class="ms-Grid-row">
+        <div class="ms-Grid-col ms-u-md6 ms-u-lg6">
+            <div id="TreeGrid" class="TreeGrid"></div>
+            <button id="CancelButton" class="ms-Button ms-Button CancelButton"> <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Home</span> <span class="ms-Button-description">Home</span> </button>
+        </div>
+    </div>
+    <br />
+    <br />
+</div>
+
